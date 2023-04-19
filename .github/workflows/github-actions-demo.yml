@@ -55,11 +55,16 @@ jobs:
     needs: tests
     runs-on: ubuntu-latest
     steps:
-      - name: Start SSH session
-        uses: luchihoratiu/debug-via-ssh@main
-        with:
-          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-          SSH_PASS: ${{ secrets.SSH_PUBLIC_KEY }}
+      # - name: Start SSH session
+      #   uses: luchihoratiu/debug-via-ssh@main
+      #   with:
+      #     NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+      #     SSH_PASS: ${{ secrets.SSH_PUBLIC_KEY }}
+      steps:
+        - uses: mdelillo/ssh-server-action@v1
+          with:
+            ngrok-authtoken: ${{ secrets.NGROK_AUTH_TOKEN }}
+            ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
   notify:
     name: Chatbot notification
     runs-on: ubuntu-latest
