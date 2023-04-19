@@ -31,6 +31,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
   tests:
     name: Tests with SAST
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -43,6 +44,7 @@ jobs:
         with:
           type: 'html'
   notify:
+    name: Chatbot notification
     runs-on: ubuntu-latest
     needs: tests
     steps:
