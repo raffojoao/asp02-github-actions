@@ -9,7 +9,11 @@ on:
       - 'main'
 
 env:
-  telegram_bot_url: 'teste de coisa'
+  telegram_bot_url: ${{ secrets.TELEGRAM_BOT_URL }}
+  telegram_chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
+  telegram_parse_mode: ${{ secrets.TELEGRAM_PARSE_MODE }}
+  commit_message: ${{ github.event.commits[0].message }}
+  repository: ${{ github.repository }}
 
 jobs:
   build:
