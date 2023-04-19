@@ -14,6 +14,5 @@ Hello João! Github build *succeded!*
 \`Repository:  $repository\`
 *Commit Msg:*
 $commit_message
-[Job Log here](${TRAVIS_JOB_WEB_URL})
 --------------------------------------
 "
