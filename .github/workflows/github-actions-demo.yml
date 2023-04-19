@@ -84,3 +84,4 @@ jobs:
         with:
           protocol: http
           port: 5000
+        run: ls
