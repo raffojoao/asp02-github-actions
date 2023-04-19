@@ -56,7 +56,7 @@ jobs:
   deploy:
     name: Deploy challenge
     runs-on: ubuntu-latest
-    needs: cancel
+    needs: build
 
     steps:
       - name: Checkout
