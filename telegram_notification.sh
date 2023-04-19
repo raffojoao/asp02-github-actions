@@ -1,7 +1,7 @@
 # !/bin/sh
 
 send_msg () {
-    curl -s -X POST $telegram_bot-url -d chat_id=$telegram_chat_id \
+    curl -s -X POST $telegram_bot_url -d chat_id=$telegram_chat_id \
         -d text="$1" -d parse_mode=$telegram_parse_mode
 }
 
