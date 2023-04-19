@@ -8,6 +8,9 @@ on:
     branches:
       - 'main'
 
+env:
+  telegram_bot_url: 'teste de coisa'
+
 jobs:
   build:
     name: Build
