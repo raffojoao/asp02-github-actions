@@ -58,5 +58,4 @@ jobs:
     name: 'Notify via telegram'
     runs-on: ubuntu-latest
     needs: build
-      steps:
-        run: bash telegram_notification.sh
+    run: bash telegram_notification.sh
