@@ -60,12 +60,11 @@ jobs:
       #   with:
       #     NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
       #     SSH_PASS: ${{ secrets.SSH_PUBLIC_KEY }}
-      steps:
-        - name: 'SSH'
-          uses: mdelillo/ssh-server-action@v1
-          with:
-            ngrok-authtoken: ${{ secrets.NGROK_AUTH_TOKEN }}
-            ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
+      - name: 'SSH'
+        uses: mdelillo/ssh-server-action@v1
+        with:
+          ngrok-authtoken: ${{ secrets.NGROK_AUTH_TOKEN }}
+          ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
   notify:
     name: Chatbot notification
     runs-on: ubuntu-latest
