@@ -30,13 +30,18 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
   tests:
-    name: Tests
+    name: Tests with SAST
     runs-on: ubuntu-latest
     steps:
-      - name: SAST
+    - uses: actions/checkout@v2
+      - name: Python tests
         uses: AppThreat/sast-scan-action@master
         with:
           type: 'python'
+      - name: HTML tests
+        uses: AppThreat/sast-scan-action@master
+        with:
+          type: 'html'
   notify:
     runs-on: ubuntu-latest
     needs: tests
