@@ -33,4 +33,4 @@ jobs:
     needs: build
     steps:
       - name: Notify via telegram
-        run: bash telegram_notification.sh
+        run: ls
