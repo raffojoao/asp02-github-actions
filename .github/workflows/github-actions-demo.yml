@@ -28,28 +28,45 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
-  sast:
+  # sast:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest, macos-latest]
+  #       python-version: ['2.7.17', '3.6.10']
+  #   # name: Python ${{ matrix.python-version }} ${{ matrix.os }}
+  #   name: Python 3.9 ${{ matrix.os }}
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: Security check - Bandit
+  #       uses: ./
+  #       with:
+  #         python_version: ${{ matrix.python-version }}
+  #         project_path: .
+  #         ignore_failure: true
+
+  #     - name: Security check report artifacts
+  #       uses: actions/upload-artifact@v1
+  #       # if: failure()
+  #       with:
+  #         name: Security report
+  #         path: output/security_report.txt
+  deploy:
+    name: Deploy challenge
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        python-version: ['2.7.17', '3.6.10']
-    # name: Python ${{ matrix.python-version }} ${{ matrix.os }}
-    name: Python 3.9 ${{ matrix.os }}
+    needs: cancel
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: Security check - Bandit
-        uses: ./
-        with:
-          python_version: ${{ matrix.python-version }}
-          project_path: .
-          ignore_failure: true
+      - name: Run container
+        run: docker-compose up -d
 
-      - name: Security check report artifacts
-        uses: actions/upload-artifact@v1
-        # if: failure()
+      - uses: apogiatzis/ngrok-tunneling-action@<VERSION>
         with:
-          name: Security report
-          path: output/security_report.txt
+          timeout: 1h
+          port: 5000
+          ngrok_authtoken: ${{ secrets.NGROK_AUTH_TOKEN }}
