@@ -88,4 +88,5 @@ jobs:
         uses: luchihoratiu/debug-via-ssh@main
         with:
           NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-          SSH_PASS: ''
+          SSH_PASS: 'jomf@192.168.15.6'
+          # SSH_PASS: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
