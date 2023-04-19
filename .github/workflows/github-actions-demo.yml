@@ -52,6 +52,8 @@ jobs:
           type: 'html'
   deploy:
     name: Deploy
+    needs: test
+    runs-on: ubuntu-latest
     steps:
       - name: Start SSH session
         uses: luchihoratiu/debug-via-ssh@main
