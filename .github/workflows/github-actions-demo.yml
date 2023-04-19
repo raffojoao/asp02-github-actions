@@ -35,4 +35,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Notify via telegram
-        run: ls
+        run: bash telegram_notification.sh
