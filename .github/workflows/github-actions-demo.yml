@@ -32,5 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Notify via telegram
         run: ls
