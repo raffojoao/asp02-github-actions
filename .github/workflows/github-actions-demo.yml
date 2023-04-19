@@ -82,5 +82,5 @@ jobs:
         id: test
         uses: vmactions/ngrok-tunnel@v0.0.1
         with:
-          protocol: tcp
+          protocol: http
           port: 5000
