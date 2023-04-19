@@ -17,8 +17,9 @@ fi
 # Define send message function. parse_mode can be changed to
 # HTML, depending on how you want to format your message:
 send_msg () {
-    curl -s -X POST ${BOT_URL} -d chat_id=$TELEGRAM_CHAT_ID \
-        -d text="$1" -d parse_mode=${PARSE_MODE}
+    echo ${{ secrets.DOCKERHUB_USERNAME }}
+    # curl -s -X POST ${BOT_URL} -d chat_id=$TELEGRAM_CHAT_ID \
+    #     -d text="$1" -d parse_mode=${PARSE_MODE}
 }
 
 # Send message to the bot with some pertinent details about the job
@@ -26,7 +27,7 @@ send_msg () {
 # characters, since they're reserved in bash
 send_msg "
 -------------------------------------
-Travis build *${build_status}!*
+Hello João! Github build *${build_status}!*
 \`Repository:  ${TRAVIS_REPO_SLUG}\`
 \`Branch:      ${TRAVIS_BRANCH}\`
 *Commit Msg:*
