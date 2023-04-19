@@ -1,18 +1,59 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+# name: GitHub Actions Demo
+# run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+# on: [push]
+# jobs:
+#   Explore-GitHub-Actions:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+#       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+#       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+#       - name: Check out repository code
+#         uses: actions/checkout@v3
+#       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+#       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+#       - name: List files in the repository
+#         run: |
+#           ls ${{ github.workspace }}
+#       - run: echo "🍏 This job's status is ${{ job.status }}."
+
+name: Python Application CI/CD with ngrok
+
+on:
+  push:
+    branches: [ main ]
+
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        dockerfile: Dockerfile
+        tags: asp-02:latest
+    - name: Run Bandit
+      uses: docker://python:3.9-alpine
+      with:
+        args: bandit -r . -c bandit.yml
+    - name: Start ngrok
+      uses: wufeifei/ngrok-action@v2
+      with:
+        auth_token: ${{ secrets.NGROK_AUTH_TOKEN }}
+        port: 5000
+    - name: Test with ngrok
+      run: |
+        sleep 10
+        curl -X POST -d "num1=5&num2=10" http://localhost:4040/api/tunnels >/dev/null 2>&1
+        sleep 5
+        curl $(curl http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url') -d "num1=5&num2=10"
+    - name: Deploy to ngrok
+      uses: appleboy/ssh-action@master
+      with:
+        host: localhost
+        username: root
+        password: root
+
