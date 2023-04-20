@@ -37,7 +37,7 @@ jobs:
   #         file: ./Dockerfile
   #         push: true
   #         tags: ${{ secrets.DOCKERHUB_USERNAME }}/asp02-devops-puc:latest
-    build-and-deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
