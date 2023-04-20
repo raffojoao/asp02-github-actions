@@ -53,14 +53,24 @@ jobs:
   deploy:
     name: Deploy
     needs: tests
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    # steps:
+    # - name: 'SSH'
+    #   uses: mdelillo/ssh-server-action@v1
+    #   with:
+    #     ngrok-authtoken: ${{ secrets.NGROK_AUTH_TOKEN }}
+    #     ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
+    runs-on: macos-latest
+    env:
+      NGROK_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
     steps:
-      - name: 'SSH'
-        uses: mdelillo/ssh-server-action@v1
+      - uses: actions/checkout@v2
+      - name: Run establish a ngrok tunnel
+        id: test
+        uses: vmactions/ngrok-tunnel@v0.0.1
         with:
-          ngrok-authtoken: ${{ secrets.NGROK_AUTH_TOKEN }}
-          ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
-
+          protocol: http
+          port: 5000
   notify:
     name: Chatbot notification
     runs-on: ubuntu-latest
