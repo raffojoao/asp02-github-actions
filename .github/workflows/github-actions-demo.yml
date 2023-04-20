@@ -65,7 +65,7 @@ jobs:
           target: '/root/docker-compose.yml'
 
       - name: SSH into Ngrok tunnel
-        uses: appleboy/ssh-action@v0.10.1
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.NGROK_SUBDOMAIN }}.ngrok.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
